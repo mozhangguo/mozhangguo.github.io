@@ -52,7 +52,7 @@ A few things that we need to consider when using this pattern.
 1. we need to ensure a unique instance. The class need to be written such that only one instance can ever be created. A common way is to hid the operation that creates the instance behind a class operation (that is, either a static member function or class method) that guarantees only one instance is created. This opeartion has access to the variable that holds the unique instance, and it ensures the variable is initialized with the unique instance before returning its value.
 
 **Example**
-```C++
+~~~ C++
 class Singleton {
 public:
 static Singleton* getInstancePtr() {
@@ -70,7 +70,7 @@ static Singleton* mInstancePtr;
 }
 
 Singleton* Singleton::mInstancePtr = nullptr; 
-```
+~~~
 
 In the example above, Clients access the singleton exclusively through the `getInstancePtr()` member function. The variable `mInstancePtr` is initialized as nullptr and the `getInstancePtr()` returns its value. The `getInstancePtr()` use lazy initialization; the value is not created and stored until it's first accessed.
 
