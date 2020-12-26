@@ -81,7 +81,7 @@ Because we cannot guarantee that only one instance of a static object will ever 
 2. About subclassing the Singleton class. The main issue is not such much defining the subclass but installing its unique instance so that the clients will be able to use it. In essence, the variable that refers to the singleton instance must get initialized of the subclass. The simplest technique is to determine which singleton you want to use in the Singleton's `getInstancePtr()` method. For example, we can store the require info in environment variables or pre preprocessor directives.
 
 *using environment variables*
-```C++
+{% highlight c++ %}
 static Singleton* Singleton::getInstancePtr() {
     if (mInstancePtr == nullptr) {
         const char* singletonMode = getenv("singletonMode");
@@ -96,7 +96,7 @@ static Singleton* Singleton::getInstancePtr() {
     }
     return mInstancePtr;
 };
-```
+{% endhighlight %}
 
 *using preprocessor directives*
 
