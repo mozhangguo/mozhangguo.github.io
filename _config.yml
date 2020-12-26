@@ -13,17 +13,13 @@ url:                https://mozhangguo.github.io/
 # Jekyll
 permalink:          /:title/
 markdown:           kramdown
-#highlighter:        rouge
+highlighter:        rouge
 kramdown:
-  input: GFM
-#  syntax_highlighter: rouge
-#  syntax_highlighter_opts:
-#    css_class: 'highlight'
-#  auto_ids:         true
-#  footnote_nr:      1
-#  entity_output:    as_char
-#  toc_levels:       1..6
-#  enable_coderay:   true
+  auto_ids:         true
+  footnote_nr:      1
+  entity_output:    as_char
+  toc_levels:       1..6
+  enable_coderay:   false
 mathjax:            true
 sass:
   sass_dir:         _sass
