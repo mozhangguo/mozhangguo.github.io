@@ -14,7 +14,16 @@ Syntax highlighting is a feature that displays source code, in different colors 
 ### Highlighted Code Blocks
 
 To modify styling and highlight colors edit `/assets/css/syntax.css`.
-
+```C++
+class bobasd {
+  void vmast();
+}
+```
+~~~ C++
+class bobasd {
+  void vmast();
+}
+~~~
 {% highlight css %}
 #container {
     float: left;
