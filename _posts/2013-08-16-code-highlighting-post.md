@@ -122,7 +122,16 @@ module Jekyll
   end
 end
 ~~~
-
+```C++
+class bobasd {
+  void vmast();
+}
+```
+~~~ C++
+class bobasd {
+  void vmast();
+}
+~~~
 ### GitHub Gist Embed
 
 An example of a Gist embed below.
