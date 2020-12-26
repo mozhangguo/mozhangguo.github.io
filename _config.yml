@@ -19,14 +19,14 @@ kramdown:
   footnote_nr:      1
   entity_output:    as_char
   toc_levels:       1..6
-  enable_coderay:   false
+  enable_coderay:   true
 mathjax:            true
 sass:
   sass_dir:         _sass
   style:            compressed
 
 # Comments
-disqus_shortname:   taylantatli
+disqus_shortname:   mozhangguo
 
 # Social
 # if you don't have any of social below, comment the line.
@@ -38,19 +38,19 @@ disqus_shortname:   taylantatli
   #ad-slot:
 #bing-verify:
 #email:
-twitter:            username
-facebook:           username
-github-url:         username
+twitter:            mozhangg
+facebook:           https://www.facebook.com/profile.php?id=100007657277405
+github-url:         https://github.com/mozhangguo
 #stackoverflow:     123456/username   from a "http://stackoverflow.com/users/123456/username" link
-#linkedin:          username
+linkedin:           https://www.linkedin.com/in/mozhang-guo-265514128/
 #xing:              username
-instagram:          username
+#instagram:          username
 #lastfm:            username
 #tumblr:            username
 #medium:            '@username'
 #pinterest:         username
 #foursquare:        username
-steam:              username
+steam:              tuedream
 #dribbble:          username
 #youtube:           username
 #youtube-channel:   channel

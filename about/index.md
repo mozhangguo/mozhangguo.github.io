@@ -9,7 +9,7 @@ comments: false
 <center><a href="http://taylantatli.github.io/Moon"><b>Home Page</b></a></center>
 
 ## About Myself
-Hi, I am a undergrad student at University of Waterloo.
+Hi, My name is Mozhang Guo. I am a undergrad student at University of Waterloo.
 
 ## Preview
 
