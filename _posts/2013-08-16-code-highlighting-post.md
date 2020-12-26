@@ -122,12 +122,16 @@ module Jekyll
   end
 end
 ~~~
-```C++
+~~~ cpp
 class bobasd {
   void vmast();
 }
-```
-~~~ C++
+~~~
+~~~ python
+def:
+  odo()
+~~~
+~~~ cpp
 class bobasd {
   void vmast();
 }
