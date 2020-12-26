@@ -128,8 +128,9 @@ class bobasd {
 }
 ```
 ~~~ python
-def:
-  odo()
+def gase():
+  global asd
+  odo(asd)
 ~~~
 ~~~ cpp
 class bobasd {
