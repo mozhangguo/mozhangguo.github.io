@@ -52,7 +52,7 @@ A few things that we need to consider when using this pattern.
 1. we need to ensure a unique instance. The class need to be written such that only one instance can ever be created. A common way is to hid the operation that creates the instance behind a class operation (that is, either a static member function or class method) that guarantees only one instance is created. This opeartion has access to the variable that holds the unique instance, and it ensures the variable is initialized with the unique instance before returning its value.
 
 **Example**
-```C++
+```cpp
 class Singleton {
 public:
 static Singleton* getInstancePtr() {
@@ -81,7 +81,7 @@ Because we cannot guarantee that only one instance of a static object will ever 
 2. About subclassing the Singleton class. The main issue is not such much defining the subclass but installing its unique instance so that the clients will be able to use it. In essence, the variable that refers to the singleton instance must get initialized of the subclass. The simplest technique is to determine which singleton you want to use in the Singleton's `getInstancePtr()` method. For example, we can store the require info in environment variables or pre preprocessor directives.
 
 *using environment variables*
-```C++
+```cpp
 static Singleton* Singleton::getInstancePtr() {
     if (mInstancePtr == nullptr) {
         const char* singletonMode = getenv("singletonMode");
@@ -100,7 +100,7 @@ static Singleton* Singleton::getInstancePtr() {
 
 *using preprocessor directives*
 
-```C++
+```cpp
 #define SomeMode
 
 static Singleton* Singleton::getInstancePtr() {
@@ -121,7 +121,7 @@ Registry of singleton is another approach. Instead of having `getInstancePtr()` 
 
 The registry maps between string names and singletons. When `getInstancePtr()` needs a singleton, it consults the registry, asking for the singleton by name. The registry looks up the corresponding singleton (if it exists) and returns it. This approach frees `getInstancePtr()` from knowing all possible singleton classes or instances. All it requires is a common interface for all singleton classes that includes operations for the registry.
 
-```C++
+```cpp
 class Singleton {
     public:
     /**
@@ -156,7 +156,7 @@ class Singleton {
 }
 ```
 The singleton class register themselves in the constructor. We can defines a static instance of MySingleton to register the service.
-```C++
+```cpp
 MySingleton :: MySingleton() {
     Singleton::Register("MySingleton", this);
 }
