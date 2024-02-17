@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://mozhangguo.github.io/sitemap.xml
