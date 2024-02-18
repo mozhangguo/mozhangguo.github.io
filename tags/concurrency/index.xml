@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Concurrency on Mozhang Guo Blog</title>
+    <link>https://mozhangguo.github.io/tags/concurrency/</link>
+    <description>Recent content in Concurrency on Mozhang Guo Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>me@example.com (Mozhang Guo)</managingEditor>
+    <webMaster>me@example.com (Mozhang Guo)</webMaster>
+    <lastBuildDate>Sun, 18 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mozhangguo.github.io/tags/concurrency/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode 1188. Design Bounded Blocking Queue</title>
+      <link>https://mozhangguo.github.io/post/notes/leetcodelinkedlistproblemsoln/</link>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <guid>https://mozhangguo.github.io/post/notes/leetcodelinkedlistproblemsoln/</guid>
+      <description>Problem Description The problem asked us to imlement a thread safer bounded blocking queues with following methods.&#xA;Constructor enqueue dequeue size The implementation will be tested under multi-threaded condition. Each thread will either be a producer (calling enqueue) or a consumer(calling dequeue).&#xA;Intuition C++ offers us multiple ways of implementing the thread safe mechanism. The Conditional variable and the mutex locks can be a&#xA;Approach Complexity Code Our solution using condition variable and mutex can be seen below.</description>
+    </item>
+  </channel>
+</rss>
