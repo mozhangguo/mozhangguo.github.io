@@ -11,6 +11,13 @@
     <lastBuildDate>Sun, 18 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://mozhangguo.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Boyer-Moore Voting Algorithm</title>
+      <link>https://mozhangguo.github.io/tags/boyer-moore-voting-algorithm/</link>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <guid>https://mozhangguo.github.io/tags/boyer-moore-voting-algorithm/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>C&#43;&#43;</title>
       <link>https://mozhangguo.github.io/tags/c&#43;&#43;/</link>
       <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
