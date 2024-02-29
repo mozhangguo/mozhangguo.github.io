@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  itemscope
+  itemtype="http://schema.org/WebPage"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>
+          Lotka Volterra System Tracking with Kalman Filter - Mozhang Guo Blog
+        </title>
+    
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Mozhang Guo" />
+  <meta name="description" content="Abstract This article investigates the Kalman filter and its sub-variant algorithms&amp;rsquo; performance on a Lotka-Volterra System tracking. This article reviews the system model built by the Lotka-Volterra equation. The concept of Kalman Filter, Extended Kalman Filter and Unscented Kalman Filter is demonstrated, and their modified algorithms are presented. We compare the performance of these algorithms using MSE, RMSE, Tracking Results and Processing Time. We showed that under the same performance level in our system, the EKF offers a more stable and fast-tracking solution." />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.121.2" />
+
+
+<link rel="canonical" href="https://mozhangguo.github.io/post/blogs/lotka_volterra_tracking/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.e826e860368147e5a6685e686355e4d7789023c18c9ea2e78b35f6786ce92736.css" integrity="sha256-6CboYDaBR&#43;WmaF5oY1Xk13iQI8GMnqLnizX2eGzpJzY=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+
+
+<meta property="og:title" content="Lotka Volterra System Tracking with Kalman Filter" />
+<meta property="og:description" content="Abstract This article investigates the Kalman filter and its sub-variant algorithms&rsquo; performance on a Lotka-Volterra System tracking. This article reviews the system model built by the Lotka-Volterra equation. The concept of Kalman Filter, Extended Kalman Filter and Unscented Kalman Filter is demonstrated, and their modified algorithms are presented. We compare the performance of these algorithms using MSE, RMSE, Tracking Results and Processing Time. We showed that under the same performance level in our system, the EKF offers a more stable and fast-tracking solution." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mozhangguo.github.io/post/blogs/lotka_volterra_tracking/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2024-02-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-02-17T00:00:00+00:00" />
+
+<meta itemprop="name" content="Lotka Volterra System Tracking with Kalman Filter">
+<meta itemprop="description" content="Abstract This article investigates the Kalman filter and its sub-variant algorithms&rsquo; performance on a Lotka-Volterra System tracking. This article reviews the system model built by the Lotka-Volterra equation. The concept of Kalman Filter, Extended Kalman Filter and Unscented Kalman Filter is demonstrated, and their modified algorithms are presented. We compare the performance of these algorithms using MSE, RMSE, Tracking Results and Processing Time. We showed that under the same performance level in our system, the EKF offers a more stable and fast-tracking solution."><meta itemprop="datePublished" content="2024-02-17T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2024-02-17T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2771">
+<meta itemprop="keywords" content="MATLAB,EKF,KF,UKF,DSP,Lotka Volterrra System," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Lotka Volterra System Tracking with Kalman Filter"/>
+<meta name="twitter:description" content="Abstract This article investigates the Kalman filter and its sub-variant algorithms&rsquo; performance on a Lotka-Volterra System tracking. This article reviews the system model built by the Lotka-Volterra equation. The concept of Kalman Filter, Extended Kalman Filter and Unscented Kalman Filter is demonstrated, and their modified algorithms are presented. We compare the performance of these algorithms using MSE, RMSE, Tracking Results and Processing Time. We showed that under the same performance level in our system, the EKF offers a more stable and fast-tracking solution."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+  </head>
+  <body>
+    <div id="back-to-top"></div>
+
+    <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Mozhang Guo Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/">Docs</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/">Resume</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/about/">About me</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+    
+      
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+    
+
+    
+
+    
+
+
+    <header id="header" class="header">
+      <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Mozhang Guo Blog
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/">Docs</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/">Resume</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://mozhangguo.github.io/about/">About me</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+    </header>
+
+    <div id="mobile-panel">
+      <main id="main" class="main bg-llight wallpaper">
+        <div class="content-wrapper">
+    <div id="content" class="content">
+      <article class="post">
+        
+        <header class="post-header">
+          <h1 class="post-title">Lotka Volterra System Tracking with Kalman Filter</h1>
+          
+
+          <div class="post-meta">
+  <div class="post-meta-author">
+    by
+      <a href="/about">
+        <span class="post-meta-author-name">
+          Mozhang Guo
+        </span>
+      </a>
+    
+  </div>
+
+  <div class="post-meta-time">
+    <time datetime="2024-02-17">
+      2024-02-17
+    </time>
+  </div>
+
+  
+
+
+  <div class="post-meta__right">
+    
+
+    <div class="post-meta-category">
+        <a href="https://mozhangguo.github.io/categories/blog/"> Blog </a>
+          
+      </div>
+
+
+    
+    
+
+
+    
+    
+  </div>
+</div>
+
+        </header>
+
+        
+        <div class="post-content">
+          <h1 id="abstract">Abstract</h1>
+<p>This article investigates the Kalman filter and its sub-variant algorithms&rsquo; performance on a Lotka-Volterra System tracking. This article reviews the system model built by the Lotka-Volterra equation. The concept of Kalman Filter, Extended Kalman Filter and Unscented Kalman Filter is demonstrated, and their modified algorithms are presented. We compare the performance of these algorithms using MSE, RMSE, Tracking Results and Processing Time. We showed that under the same performance level in our system, the EKF offers a more stable and fast-tracking solution. However, UKE offers a slightly better RMSE performance.</p>
+<h1 id="introduction">Introduction</h1>
+<p>The Kalman Filter provides a reliable solution in system tracking for linear systems. It estimates the system states and make predictions about unknown variables with noised measurements. However, for non-linear systems, the Kalman filter does not perform well since the system cannot be expressed in linear matrix form. Other Kalman Filter based sub-variant algorithms are designed for these non-linear Gaussian problems, such as Linearized Kalman Filter, Extended Kalman Filter, and Unscented Kalman Filter. In this article, our goal will be to implement and compare these algorithms for the non-linear system.</p>
+<p>Although both Extended Kalman Filter and Unscented Kalman Filter perform well on non-linear system tracking, there are still debates on which one to choose in practical applications. Depending on the system complexity and algorithm design, the complexity of UKF and EKF are different. In the following section, we have reviewed some practical applications of UKF and EKF. These studies provide a comparative analysis of different Kalman Filter based algorithms under different physical scenarios.</p>
+<h1 id="system-model">System Model</h1>
+<h2 id="non-linear-system">Non-linear System</h2>
+<p>We consider a system described as classical predator-prey population dynamic system. The system consists of two different participants in the system exhibiting a trade-off relationship. In this case, we name them: prey and predator. The cycle dynamics start from the increasing population of prey. Then, the abundance of prey would increase the population of the predator. When the predator population increases, the population of prey decreases. Then due to a lack of food sources, the population of predators decreases which results in an increase in the population of prey.<br>
+Their population are described in equations below \eqref{eq:syseq1}. \ref{syseq2}</p>
+<p>$$
+\begin{gather}
+dx_{1t} = x_{1t} [r_1 - a_{12}x_{2t}] \label{eq:syseq1} \\
+dx_{2t} = x_{2t} [-r_2 - a_{21}x_{1t}] \label{syseq2}
+\end{gather}
+$$</p>
+<p>In this mode, \( dx_{1t} \) and \( dx_{1t} \) are the population densities of prey and a predator at time t. The \(dx_{1t}\) and \(dx_{1t} \) are the change rate for the population densities, The  \( dx_{1t} \) and \( dx_{1t} \) are the natural growth and death rate for the predator and prey, and \( dx_{1t}\) is the interaction parameter between different species.</p>
+<p>We assume the growth rate and species interaction parameters are fixed in the system, and we take one step approximation of the above equation to the approximated next time step state of our system as shown in equation.</p>
+<p>$$
+\begin{gather}
+x_{1,t+1} = \Delta t \cdot dx_{1,t} + x_{1,t} + v_{1}\\
+x_{2,t+1} = \Delta t \cdot dx_{2,t} + x_{2,t} + v_{2}
+\end{gather}
+$$</p>
+<p>The \( \Delta t \) here is the time step. Here, process noise \(v_1\) and \(v_2\) as zero mean and variance \( \sigma_1 \) and \(\sigma_2\). Clearly, our system is not linear. Thus it can be represented in a matrix form for state transition. We rewrite the system in equation below.</p>
+<p>$$
+\begin{equation}
+\begin{bmatrix}
+x_{1,t+1}\\
+x_{2,t+1}
+\end{bmatrix}
+= f(\begin{bmatrix}
+x_{1,t}\\
+x_{2,t}
+\end{bmatrix}) + \begin{bmatrix}
+v_{1}\\
+v_{2}
+\end{bmatrix}
+\end{equation}
+$$</p>
+<p>As for the measurement, we assume that we are able to measure the \(x_{n,1}\) and \(x_{n,2}\) directly with a certain variance. In this case, the measurement is linear. Then the measurement function can be written in equation below. The \(u_1\) and \(u_2\) denote measurement noise.</p>
+<p>$$
+\begin{equation}
+\begin{bmatrix}
+y_{1,t}\\
+y_{2,t}
+\end{bmatrix}
+= \begin{bmatrix}
+1 &amp; 0\\
+0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix}
+x_{1,t}\\
+x_{2,t}
+\end{bmatrix} + \begin{bmatrix}
+u_{1}\\
+u_{2}
+\end{bmatrix}
+\end{equation}
+$$</p>
+<h2 id="linearized-kalman-filter">Linearized Kalman Filter</h2>
+<p>Kalman Filter(KF) works well on linear discrete-time dynamic system tracking due to its capability to capture the physical relationship inside the dynamics system. The process equation models the unknown physical state transition behind the system. The measurement equation below describes the relationship between observation and the physical state of the system.</p>
+<p>$$
+\begin{gather}
+x(n+1) = F(n+1,n)x(n) + V_1(n)\\
+y(n) = C(n)x(n) + v_2(n)
+\end{gather}
+$$
+The innovation process in equation below is introduced at each time step to correct the system prediction direction by comparing the new measurement and predicted measurement and observed measurements.</p>
+<p>$$
+\begin{equation}
+\alpha(n) = y(n) - \hat{y}(n | {y}_{n-1})
+\label{eq:KFinoovation}
+\end{equation}
+$$</p>
+<p>In a typical Kalman Filter design, the state transition matrix is fixed before the system processing. In our implementation for the KF, we propose to use \(f\) from equation above to complete the state prediction.
+The linearized transition matrix is given by taking the derivative of the state equation. The corresponding transition matrix is given in equation below.</p>
+<p>$$
+\begin{gather}
+F_{kf} = \begin{bmatrix}
+1+\Delta t (r_1-a_{12}x_{2,n-1}) &amp; 0 \\
+0 &amp; 1-\Delta t (r_2-a_{21}x_{1,n-1})
+\end{bmatrix}
+\label{eq:Ftran}
+\end{gather}
+$$</p>
+<p>Based on the introduction above, we can write modify the KF algorithm using linearized transition matrix. The sudo algorithm is demonstrated below</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-MATLAB" data-lang="MATLAB"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> [x_n,K_n] = <span style="color:#a6e22e">KF </span>(x_n1,K_n1,y_n,f,fdf,Q_n,C_n,R_n)
+</span></span><span style="display:flex;"><span>F_n = diag(fdf(x_n1));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>K_nn1 = F_n<span style="color:#f92672">*</span>K_n1<span style="color:#f92672">*</span>F_n<span style="color:#f92672">&#39;</span> <span style="color:#f92672">+</span> Q_n;
+</span></span><span style="display:flex;"><span>x_nn1 = f(x_n1);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>G = K_nn1<span style="color:#f92672">*</span>C_n<span style="color:#f92672">&#39;/</span>(C_n<span style="color:#f92672">*</span>K_nn1<span style="color:#f92672">*</span>C_n<span style="color:#f92672">&#39;</span> <span style="color:#f92672">+</span> R_n);
+</span></span><span style="display:flex;"><span>alpha = y_n<span style="color:#f92672">-</span>C_n<span style="color:#f92672">*</span>x_nn1;
+</span></span><span style="display:flex;"><span>x_n = x_nn1 <span style="color:#f92672">+</span> G<span style="color:#f92672">*</span>alpha;
+</span></span><span style="display:flex;"><span>K_n = K_nn1 <span style="color:#f92672">-</span> G<span style="color:#f92672">*</span>C_n<span style="color:#f92672">*</span>K_nn1;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h2 id="extended-kalman-filter">Extended Kalman Filter</h2>
+<p>Another option for system estimation is using the Extended Kalman Filter(EKF). The Extended Kalman Filter linearizes the process equation and measurement equation by using the Jacobian matrix if necessary. By differentiation to get the approximated transition matrix $F$ and measurement matrix $H$.</p>
+<p>$$
+\begin{gather}
+\tilde{F} = \frac{\partial f}{\partial x} \\
+\tilde{H} = \frac{\partial h}{\partial x}
+\end{gather}
+$$</p>
+<p>Given the process equation, the state transition matrix is given in equation. The measurement function is a linear function, so we do not need to use the Jacobian matrix for it.</p>
+<p>$$
+\begin{gather}
+F_{kf} = \begin{bmatrix}
+1+\Delta t (r_1-a_{12}x_{2,t-1}) &amp; -\Delta t x_{1,t-1} a_{12} \\
+\Delta t a_{21} x_{2,t-1} &amp; 1-\Delta t (r_2-a_{21}x_{1,t-1})
+\end{bmatrix}
+\label{eq:EKFtran}
+\end{gather}
+$$</p>
+<p>The algorithm for the EKF is given as in the algorithm below. Notice that the EKF algorithm is similar to the KF algorithm. The only difference between the EKF and LKF above is the transition matrix.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-MATLAB" data-lang="MATLAB"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> [x_n, K_n] = <span style="color:#a6e22e">EKF</span>(x_n1, K_n1, y_n, f, fJf, Q_n, C_n, R_n)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>F_n = fJf(x_n1);
+</span></span><span style="display:flex;"><span>K_nn1 = F_n<span style="color:#f92672">*</span>K_n1<span style="color:#f92672">*</span>F_n<span style="color:#f92672">&#39;</span> <span style="color:#f92672">+</span> Q_n;
+</span></span><span style="display:flex;"><span>x_nn1 = f(x_n1);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>G = K_nn1<span style="color:#f92672">*</span>C_n<span style="color:#f92672">&#39;/</span>(C_n<span style="color:#f92672">*</span>K_nn1<span style="color:#f92672">*</span>C_n<span style="color:#f92672">&#39;</span> <span style="color:#f92672">+</span> R_n);
+</span></span><span style="display:flex;"><span>alpha = y_n<span style="color:#f92672">-</span>C_n<span style="color:#f92672">*</span>x_nn1;
+</span></span><span style="display:flex;"><span>x_n = x_nn1 <span style="color:#f92672">+</span> G<span style="color:#f92672">*</span>alpha;
+</span></span><span style="display:flex;"><span>K_n = K_nn1 <span style="color:#f92672">-</span> G<span style="color:#f92672">*</span>C_n<span style="color:#f92672">*</span>K_nn1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h2 id="unscented-kalman-filter">Unscented Kalman Filter</h2>
+<p>The unscented Kalman Filter(UKF) is another sub-variant of the Kalman filter algorithm. It relies on the UT transformation, which is a technique for estimating the statistics for a random variable undergoing a nonlinear transformation. The basic idea behind UT transformation is summarized in 3 steps.</p>
+<ol>
+<li>select the a (2L+1) different sampling points (sigma points) to represent original x&rsquo;s statistics</li>
+<li>Transform these sampling through nonlinear process $f$</li>
+<li>Get y&rsquo;s statistics through these transformed sampling points
+\end{enumerate}
+Remark: These sampling points are not random but have to follow certain rules so that they can capture the mean and variance of the x. These rules are given in equation .</li>
+</ol>
+<p>$$
+\begin{gather}
+\chi_0 = \bar{x} \label{eq:ut1}\\
+\chi_i = \bar{x} + (\sqrt{(L+\lambda)P_x})<em>i, i=1,&hellip;L \label{eq:ut2} \\
+\chi_i = {x} - (\sqrt{(L+\lambda)P_x})</em>{i=L}, i=L+1,&hellip;,2L \label{eq:ut3}
+\end{gather}
+$$</p>
+<p>Then passing these sigma points to the nonlinear function to get $\mathcal{Y}$</p>
+<p>$$
+\begin{equation}
+\mathcal{Y}_i = f(\chi_i), i=0,&hellip;,2L
+\end{equation}
+$$</p>
+<p>The mean and variance for \( x(t+1) \) are estimated through weighted mean and covariance from \( \mathcal{Y} \) given in equation \ref{eq:uty1} and \ref{eq:uty2}. The weights are given in equation \ref{eq:w1}, \ref{eq:w2} and \ref{eq:w3}.</p>
+<p>$$
+\begin{gather}
+\bar{y} = \sum_i^{2L} W_i^{m}\mathcal{Y}<em>i \label{eq:uty1}\
+P</em>{t+1} = \sum_i^{2L} W_i^{c} (\mathcal{Y}_i - \bar{y})(\mathcal{Y}_i - \bar{y})^T \label{eq:uty2}
+\end{gather}
+$$</p>
+<p>$$
+\begin{gather}
+W_0^m = \frac{\lambda}{L+\lambda} \label{eq:w1} \
+W_0^c = \frac{\lambda}{L+\lambda}+1-\alpha^2 + \beta \label{eq:w2} \
+W_i^c = W_i^m = \frac{1}{2(L+\lambda)}, i =1,&hellip;,2L \label{eq:w3}
+\end{gather}
+$$</p>
+<p>The \(\lambda = \alpha^2(L+k) - L\) is a scaling parameter. The dimensionality of x determines the L. The $\alpha$ determines the spread of the sigma points, and it is set to a small positive value. The $k=3-L$ is another scaling parameter. The $\beta$ is used for incorporating knowledge on the prior distribution of x into sigma point selection.</p>
+<p>The UKF first samples $x(t-1)$ for sigma points. Then, it does UT transformation to estimate the predicted states $x_p(t)$ and $P_p(t)$, which will be adjusted based on the innovation. Based on the $x_p(t)$, the UKF samples again for sigma points(set 2) and take measurements from these sigma points. These measurements from sigma points(set 2) will be used for calculating the estimated observation(y). Next, UKF would calculate the predicted covariance between x and y and the cross variance of y. The final step would be to calculate the Kalman gain and update the system based on all the information from above; The detailed algorithm is as follows.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-MATLAB" data-lang="MATLAB"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> [x_n,P_n]=<span style="color:#a6e22e">UKF</span>(f,x_n1,P,h,y_n,Q,R)
+</span></span><span style="display:flex;"><span>L=numel(x_n1);
+</span></span><span style="display:flex;"><span>alpha=<span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>ki=<span style="color:#ae81ff">3</span><span style="color:#f92672">-</span>L;
+</span></span><span style="display:flex;"><span>beta=<span style="color:#ae81ff">2</span>; <span style="color:#75715e">% for gaussian</span>
+</span></span><span style="display:flex;"><span>lambda=alpha^<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>(L<span style="color:#f92672">+</span>ki)<span style="color:#f92672">-</span>L;
+</span></span><span style="display:flex;"><span>Wm=[lambda<span style="color:#f92672">/</span>(L<span style="color:#f92672">+</span>lambda) <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>(lambda<span style="color:#f92672">+</span>L))<span style="color:#f92672">*</span>ones(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>L)];
+</span></span><span style="display:flex;"><span>Wc=Wm;
+</span></span><span style="display:flex;"><span>Wc(<span style="color:#ae81ff">1</span>)=lambda<span style="color:#f92672">/</span>(L<span style="color:#f92672">+</span>lambda)<span style="color:#f92672">+</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>alpha^<span style="color:#ae81ff">2</span><span style="color:#f92672">+</span>beta);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Y = repmat(x_n1, <span style="color:#ae81ff">1</span>,L);
+</span></span><span style="display:flex;"><span>Xsigmaset = [x_n1 Y<span style="color:#f92672">+</span>sqrt(L<span style="color:#f92672">+</span>lambda)<span style="color:#f92672">*</span>chol(P)<span style="color:#f92672">&#39;</span> Y<span style="color:#f92672">-</span>sqrt(L<span style="color:#f92672">+</span>lambda)<span style="color:#f92672">*</span>chol(P)<span style="color:#f92672">&#39;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>LL=<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>x_np=zeros(L,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>Xsigmap=zeros(L,LL);
+</span></span><span style="display:flex;"><span>y_np=zeros(L,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>y_xsigmap=zeros(L,LL);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i=<span style="color:#ae81ff">1</span>:LL
+</span></span><span style="display:flex;"><span>    Xsigmap(:,i)=f(Xsigmaset(:,i));
+</span></span><span style="display:flex;"><span>    y_xsigmap(:,i)=h(Xsigmap(:,i));
+</span></span><span style="display:flex;"><span>    x_np=x_np<span style="color:#f92672">+</span>Wm(i)<span style="color:#f92672">*</span>Xsigmap(:,i);
+</span></span><span style="display:flex;"><span>    y_np=y_np<span style="color:#f92672">+</span>Wm(i)<span style="color:#f92672">*</span>y_xsigmap(:,i);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>P_np=(Xsigmap<span style="color:#f92672">-</span>x_np(:,ones(<span style="color:#ae81ff">1</span>,LL)))<span style="color:#f92672">*</span>diag(Wc)<span style="color:#f92672">*</span>(Xsigmap<span style="color:#f92672">-</span>x_np(:,ones(<span style="color:#ae81ff">1</span>,LL)))<span style="color:#f92672">&#39;+</span>Q;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Pyy=(y_xsigmap<span style="color:#f92672">-</span>y_np(:,ones(<span style="color:#ae81ff">1</span>,LL)))<span style="color:#f92672">*</span>diag(Wc)<span style="color:#f92672">*</span>(y_xsigmap<span style="color:#f92672">-</span>y_np(:,ones(<span style="color:#ae81ff">1</span>,LL)))<span style="color:#f92672">&#39;+</span>R;
+</span></span><span style="display:flex;"><span>Pxy=(Xsigmap<span style="color:#f92672">-</span>x_np(:,ones(<span style="color:#ae81ff">1</span>,LL)))<span style="color:#f92672">*</span>diag(Wc)<span style="color:#f92672">*</span>(y_xsigmap<span style="color:#f92672">-</span>y_np(:,ones(<span style="color:#ae81ff">1</span>,LL)))<span style="color:#f92672">&#39;</span>;
+</span></span><span style="display:flex;"><span>K=Pxy<span style="color:#f92672">/</span>Pyy;
+</span></span><span style="display:flex;"><span>x_n=x_np<span style="color:#f92672">+</span>K<span style="color:#f92672">*</span>(y_n<span style="color:#f92672">-</span>y_np);
+</span></span><span style="display:flex;"><span>P_n=P_np<span style="color:#f92672">-</span>K<span style="color:#f92672">*</span>Pxy<span style="color:#f92672">&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h1 id="simulation">Simulation</h1>
+<h2 id="simulation-setting">Simulation Setting</h2>
+<p>The setting is summarized in table \ref{tab:SimSetting}. This setting has been used in \cite{chow2004fitting} and \cite{chow2007unscented}. The $\Delta t$ is chosen as 0.01 for the step size. We set the measurement noise variance to 40 and process noise variance to 1. Setting a measurement variance is to differentiate the performance of different algorithms.</p>
+<p>The parameter setting for UKF is $\alpha = 1$, $\beta=2$, $k=3-L = 1$.
+$x_{1,0}$ 	400
+$x_{2,0}$ 	100
+$r_{1}$ 	1
+$r_{2}$ 	1
+$a_{12}$ 	0.0025
+$a_{21}$ 	0.005</p>
+<p>For performance benchmarking, we will be looking at the algorithm&rsquo;s ensembled RMSE and processing time between different algorithms.</p>
+<h2 id="tracking-simulation">Tracking Simulation</h2>
+<p>The figure in \ref{fig:tLKF} shows the tracking results using the LKF algorithm, and the figure in \ref{fig:tEKF} shows the tracking results using the EKF algorithm. The tracking results using the UKF algorithm are shown in \ref{fig:tUKF}. The green dots show the observation value. The red line is the estimation value from the algorithm. The blue line is the process value. The estimated values from LKF (red line) for $x(1)$ and $x(2)$ can follow the system process with some variance. Nevertheless, the variance is much lower compared with the observed variance. The estimated $x(1)$ and $x(2)$ from EKF can follow the system process with slight variance as well, and the estimated $x(1)$ and $x(2)$ from UKF can follow the system process as well. The EKF and UKF can outperform the LKF since their tracking noise is much lower than the LKF. We calculate their ensembled RMSE and accumulated processing time to compare these algorithms better to reveal their accuracy and complexity.</p>
+<p><img src="/image/lkftracklast.png" alt="Tracking Using LKF"></p>
+<p><img src="/image/ekftracklast.png" alt="Tracking Using EKF"></p>
+<p><img src="/image/ukftracklast.png" alt="Tracking Using UKF"></p>
+<h2 id="performance-benchmarking">Performance Benchmarking</h2>
+<p>First, we compare the performance of different algorithms by calculating the ensembled RMSE of the tracking $x(i), i=1,2$ using equation \ref{eq:rmse}. The performance results are shown in figure \ref{fig:rmsex1} and \ref{fig:rmsex2}. The averaged RMSE is summarized at table \ref{tab:rmse}. From the figures, we can observe that the UKF and EKF clearly can outperform the KF. The UKF&rsquo;s RMSE performance is slightly better than the EKF.</p>
+<p>$$
+\begin{equation}
+RMSE_{KF,EKF,UKF} = \sum_{n=1}^N |x(i) - x_{KF,EKF,UKF}(i)|^2
+\label{eq:rmse}
+\end{equation}
+$$</p>
+<p><img src="/image/rmsex1.png" alt="RMSE performance of tracking on x(1)"></p>
+<p><img src="/image/rmsex2.png" alt="RMSE performance of tracking on x(2)"></p>
+<p>Next, we will be comparing the processing time of different tracking algorithms. We take 100 trails, and in each trial, we choose the tracking time as 2000 time slots. The processing time will be accumulated in each trail for each algorithm. The results are shown in figure \ref{fig:timecomp}. The averaged accumulated time is summarized in table \ref{tab:time}. We observe that the UKF is the most time-consuming among all these algorithms. The EKF and KF are close in terms of time performance, and EKF&rsquo;s processing time is only slightly shorter than the KF&rsquo;s processing time.</p>
+<p><img src="/image/proccesingtimereplace.png" alt="Accumulated Processing Time Vs Trails"></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The above simulation shows that all three algorithms can track the Lotka-Volterra system with some variance. Among all three algorithms, UKF tracking lowers RMSE but has the highest computation cost. The processing time from UKF is much larger than the processing time from EKF and LKF. The RMSE from EKF is slightly larger than UKF, but its processing time is much lower than UKF. In such a case, the EKF is a better choice among all these candidate algorithms for the Lotka-Volterra system since it offers an outstanding accuracy with low complexity.</p>
+<p>The main reason for the processing time difference is the operation complexity of different algorithms. For the EKF, the most time-consuming operation is the Jacobian matrix formulation. As for the UKF, the most time-consuming operation is the Cholesky factorization during sampling for the covariance matrix. Since the system&rsquo;s order is only first order, the computation cost for Jacobian matrix formulation is low. Thus, in our case, the EKF&rsquo;s complexity is lower than the UKF. Also, in most literature, the UKF can offer better performance in terms of RMSE than the EKF. Depending on the system, the performance gain from UKF can be really. For some cases, trading for high accuracy with high complexity is more desirable. In such conditions, the UKF is more desirable than EKF.
+Regarding stability, the UKF could fail during the iteration when performing Cholesky factorization. However, there are specific ways in literature to avoid this, such as iteratively factorization. However, this would downgrade the performance of UKF. Thus, in terms of stability, the EKF can outperform UKF.</p>
+<p>The project can be extended to more complex system trackings with other non-linear filter algorithms for further work. For the Lotka-Volterra system, the tracking performance comparison is not that significant due to the complexity. To further benchmark, we can increase the system complexity. Also, there are other candidate algorithms for non-linear system tracking, such as the Particle filter. For further work, our goal is to implement other algorithms for comparison.</p>
+<h2 id="code-for-system-tracking-evaluation">Code for System Tracking Evaluation</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-MATLAB" data-lang="MATLAB"><span style="display:flex;"><span>clear all;
+</span></span><span style="display:flex;"><span>close all;
+</span></span><span style="display:flex;"><span>clc;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>delt = <span style="color:#ae81ff">0.01</span>;
+</span></span><span style="display:flex;"><span>a12=<span style="color:#ae81ff">0.0025</span>;
+</span></span><span style="display:flex;"><span>a21=<span style="color:#ae81ff">0.005</span>;
+</span></span><span style="display:flex;"><span>v = <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>u = <span style="color:#ae81ff">40</span>;
+</span></span><span style="display:flex;"><span>Q_n = v^<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>eye(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>R = [u^<span style="color:#ae81ff">2</span> <span style="color:#ae81ff">0</span>;<span style="color:#ae81ff">0</span> u^<span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>H_n=[<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>;<span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>]; <span style="color:#75715e">% Measurement Matrix</span>
+</span></span><span style="display:flex;"><span>x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = [<span style="color:#ae81ff">400</span>; <span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% EKF init</span>
+</span></span><span style="display:flex;"><span>xekf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>P(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = eye(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% KF init</span>
+</span></span><span style="display:flex;"><span>xkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = [<span style="color:#ae81ff">400</span>; <span style="color:#ae81ff">100</span>]; <span style="color:#75715e">% Initial channel coefficients</span>
+</span></span><span style="display:flex;"><span>Pkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = eye(<span style="color:#ae81ff">2</span>); <span style="color:#75715e">% Gaussian posterior covariance at time step 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% UKF init</span>
+</span></span><span style="display:flex;"><span>xukf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = [<span style="color:#ae81ff">400</span>; <span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>Pukf = eye(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>f = @(x)[(<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a21)) <span style="color:#f92672">*</span> x(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>);(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a12)) <span style="color:#f92672">*</span> x(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>)];
+</span></span><span style="display:flex;"><span>fdf = @(x)[<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">2</span>)<span style="color:#f92672">*</span>a21);<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a12)];
+</span></span><span style="display:flex;"><span>fJf = @(x)[<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">2</span>)<span style="color:#f92672">*</span>a21) <span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>x(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a21;delt<span style="color:#f92672">*</span>x(<span style="color:#ae81ff">2</span>)<span style="color:#f92672">*</span>a12 <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a12)];
+</span></span><span style="display:flex;"><span>h = @(x)[x(<span style="color:#ae81ff">1</span>);x(<span style="color:#ae81ff">2</span>)];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> n=<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">2000</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">% State propagation</span>
+</span></span><span style="display:flex;"><span>    v_n = v<span style="color:#f92672">*</span>randn(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) = f(x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span> v_n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">% Generate measurements</span>
+</span></span><span style="display:flex;"><span>    w_n = u<span style="color:#f92672">*</span>randn(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    y_n = H_n<span style="color:#f92672">*</span>x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) <span style="color:#f92672">+</span> w_n;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">%Linearized KF</span>
+</span></span><span style="display:flex;"><span>    [xkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n),Pkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n)] = KF (xkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),Pkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),y_n, f,fdf,Q_n,H_n,R);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">%EKF</span>
+</span></span><span style="display:flex;"><span>    [xekf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n),P(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n)] = EKF(xekf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),P(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),y_n, f,fJf,Q_n,H_n,R);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">%UKF</span>
+</span></span><span style="display:flex;"><span>    [xukf(:,n), Pukf] = UKF(f,xukf(:,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),Pukf,h,y_n,Q_n,R);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>t = [<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">1999</span>]<span style="color:#f92672">&#39;*</span>delt;
+</span></span><span style="display:flex;"><span>figure
+</span></span><span style="display:flex;"><span>hold on
+</span></span><span style="display:flex;"><span>plot(t, x(<span style="color:#ae81ff">1</span>,:), <span style="color:#e6db74">&#39;b-&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(t, x(<span style="color:#ae81ff">2</span>,:), <span style="color:#e6db74">&#39;b-&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot(t, xkf(<span style="color:#ae81ff">1</span>,:), <span style="color:#e6db74">&#39;r-&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(t, xkf(<span style="color:#ae81ff">2</span>,:), <span style="color:#e6db74">&#39;r-&#39;</span>);
+</span></span><span style="display:flex;"><span>legend(<span style="color:#e6db74">&#39;Real x(1)&#39;</span>,<span style="color:#e6db74">&#39;real x(2)&#39;</span>,<span style="color:#e6db74">&#39;LKF estimate x(1)&#39;</span>, <span style="color:#e6db74">&#39;LKF estimate x(2)&#39;</span>);
+</span></span><span style="display:flex;"><span>xlabel(<span style="color:#e6db74">&#39;Time&#39;</span>)
+</span></span><span style="display:flex;"><span>ylabel(<span style="color:#e6db74">&#39;population&#39;</span>)
+</span></span><span style="display:flex;"><span>title(<span style="color:#e6db74">&#39;Tracking with LKF&#39;</span>)
+</span></span><span style="display:flex;"><span>hold off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>figure
+</span></span><span style="display:flex;"><span>hold on
+</span></span><span style="display:flex;"><span>plot(t, x(<span style="color:#ae81ff">1</span>,:), <span style="color:#e6db74">&#39;b-&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(t, x(<span style="color:#ae81ff">2</span>,:), <span style="color:#e6db74">&#39;b-&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot(t, xekf(<span style="color:#ae81ff">1</span>,:), <span style="color:#e6db74">&#39;r-&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(t, xekf(<span style="color:#ae81ff">2</span>,:), <span style="color:#e6db74">&#39;r-&#39;</span>);
+</span></span><span style="display:flex;"><span>legend(<span style="color:#e6db74">&#39;Real x(1)&#39;</span>,<span style="color:#e6db74">&#39;real x(2)&#39;</span>,<span style="color:#e6db74">&#39;EKF estimate x(1)&#39;</span>, <span style="color:#e6db74">&#39;EKF estimate x(2)&#39;</span>);
+</span></span><span style="display:flex;"><span>xlabel(<span style="color:#e6db74">&#39;Time&#39;</span>)
+</span></span><span style="display:flex;"><span>ylabel(<span style="color:#e6db74">&#39;population&#39;</span>)
+</span></span><span style="display:flex;"><span>title(<span style="color:#e6db74">&#39;Tracking with EKF&#39;</span>)
+</span></span><span style="display:flex;"><span>hold off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>figure
+</span></span><span style="display:flex;"><span>hold on
+</span></span><span style="display:flex;"><span>plot(t, x(<span style="color:#ae81ff">1</span>,:), <span style="color:#e6db74">&#39;b-&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(t, x(<span style="color:#ae81ff">2</span>,:), <span style="color:#e6db74">&#39;b-&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot(t, xukf(<span style="color:#ae81ff">1</span>,:), <span style="color:#e6db74">&#39;r-&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(t, xukf(<span style="color:#ae81ff">2</span>,:), <span style="color:#e6db74">&#39;r-&#39;</span>);
+</span></span><span style="display:flex;"><span>legend(<span style="color:#e6db74">&#39;Real x(1)&#39;</span>,<span style="color:#e6db74">&#39;real x(2)&#39;</span>,<span style="color:#e6db74">&#39;UKF estimate x(1)&#39;</span>, <span style="color:#e6db74">&#39;UKF estimate x(2)&#39;</span>);
+</span></span><span style="display:flex;"><span>xlabel(<span style="color:#e6db74">&#39;Time&#39;</span>)
+</span></span><span style="display:flex;"><span>ylabel(<span style="color:#e6db74">&#39;population&#39;</span>)
+</span></span><span style="display:flex;"><span>title(<span style="color:#e6db74">&#39;Tracking with UKF&#39;</span>)
+</span></span><span style="display:flex;"><span>hold off
+</span></span></code></pre></div><h2 id="code-for-performance-evaluation">Code for Performance Evaluation</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-MATLAB" data-lang="MATLAB"><span style="display:flex;"><span>clear all;
+</span></span><span style="display:flex;"><span>close all;
+</span></span><span style="display:flex;"><span>clc;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">%State space model </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ensumbled_lc = zeros(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">2000</span>);
+</span></span><span style="display:flex;"><span>processing_t = zeros(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> trial=<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>d = zeros(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">2000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>delt = <span style="color:#ae81ff">0.01</span>;
+</span></span><span style="display:flex;"><span>a12=<span style="color:#ae81ff">0.0025</span>;
+</span></span><span style="display:flex;"><span>a21=<span style="color:#ae81ff">0.005</span>;
+</span></span><span style="display:flex;"><span>v = <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>u = <span style="color:#ae81ff">40</span>;
+</span></span><span style="display:flex;"><span>Q_n = v^<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>eye(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>R = [u^<span style="color:#ae81ff">2</span> <span style="color:#ae81ff">0</span>;<span style="color:#ae81ff">0</span> u^<span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>H_n=[<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>;<span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>]; <span style="color:#75715e">% Measurement Matrix</span>
+</span></span><span style="display:flex;"><span>x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = [<span style="color:#ae81ff">400</span>; <span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>P(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = eye(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% EKF init</span>
+</span></span><span style="display:flex;"><span>xekf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>P(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = eye(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% KF init</span>
+</span></span><span style="display:flex;"><span>xkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = [<span style="color:#ae81ff">400</span>; <span style="color:#ae81ff">100</span>]; <span style="color:#75715e">% Initial channel coefficients</span>
+</span></span><span style="display:flex;"><span>Pkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = eye(<span style="color:#ae81ff">2</span>); <span style="color:#75715e">% Gaussian posterior covariance at time step 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% UKF init</span>
+</span></span><span style="display:flex;"><span>xukf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>) = [<span style="color:#ae81ff">400</span>; <span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>Pukf = eye(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>f = @(x)[(<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a21)) <span style="color:#f92672">*</span> x(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>);(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a12)) <span style="color:#f92672">*</span> x(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>)];
+</span></span><span style="display:flex;"><span>fdf = @(x)[<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">2</span>)<span style="color:#f92672">*</span>a21);<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a12)];
+</span></span><span style="display:flex;"><span>fJf = @(x)[<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">2</span>)<span style="color:#f92672">*</span>a21) <span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>x(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a21;delt<span style="color:#f92672">*</span>x(<span style="color:#ae81ff">2</span>)<span style="color:#f92672">*</span>a12 <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>delt<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>x(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>a12)];
+</span></span><span style="display:flex;"><span>h = @(x)[x(<span style="color:#ae81ff">1</span>);x(<span style="color:#ae81ff">2</span>)];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> n=<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">2000</span>
+</span></span><span style="display:flex;"><span>        v_n = v<span style="color:#f92672">*</span>randn(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) = f(x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span> v_n;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        w_n = u<span style="color:#f92672">*</span>randn(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        y_n = H_n<span style="color:#f92672">*</span>x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) <span style="color:#f92672">+</span> w_n;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">%Linearized KF</span>
+</span></span><span style="display:flex;"><span>        tic    
+</span></span><span style="display:flex;"><span>        [xkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n),Pkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n)] = KF (xkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),Pkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),y_n, f,fdf,Q_n,H_n,R);
+</span></span><span style="display:flex;"><span>        processing_t(<span style="color:#ae81ff">1</span>,trial) = toc <span style="color:#f92672">+</span> processing_t(<span style="color:#ae81ff">1</span>,trial);        
+</span></span><span style="display:flex;"><span>        d(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) = abs(x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) <span style="color:#f92672">-</span> xkf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tic
+</span></span><span style="display:flex;"><span>        [xekf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n),P(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n)] = EKF(xekf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),P(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),y_n, f,fJf,Q_n,H_n,R);
+</span></span><span style="display:flex;"><span>        processing_t(<span style="color:#ae81ff">2</span>,trial) = toc <span style="color:#f92672">+</span> processing_t(<span style="color:#ae81ff">2</span>,trial);
+</span></span><span style="display:flex;"><span>        d(<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">4</span>,n) = abs(x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) <span style="color:#f92672">-</span> xekf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n));
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">% Compute for the ukf</span>
+</span></span><span style="display:flex;"><span>        tic
+</span></span><span style="display:flex;"><span>        [xukf(:,n), Pukf] = UKF(f,xukf(:,n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),Pukf,h,y_n,Q_n,R);
+</span></span><span style="display:flex;"><span>        processing_t(<span style="color:#ae81ff">3</span>,trial) = toc <span style="color:#f92672">+</span> processing_t(<span style="color:#ae81ff">3</span>,trial);
+</span></span><span style="display:flex;"><span>        d(<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">6</span>,n) = abs(x(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n) <span style="color:#f92672">-</span> xukf(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>,n));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    ensumbled_lc = ensumbled_lc <span style="color:#f92672">+</span> d<span style="color:#f92672">.^</span><span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ensumbled_lc = ensumbled_lc<span style="color:#f92672">/</span><span style="color:#ae81ff">100</span>;
+</span></span><span style="display:flex;"><span>t = [<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">1999</span>]<span style="color:#f92672">&#39;*</span>delt;
+</span></span><span style="display:flex;"><span>figure
+</span></span><span style="display:flex;"><span>plot(t, ensumbled_lc(<span style="color:#ae81ff">1</span>,:))
+</span></span><span style="display:flex;"><span>hold on, plot(t, ensumbled_lc(<span style="color:#ae81ff">3</span>,:))
+</span></span><span style="display:flex;"><span>plot(t, ensumbled_lc(<span style="color:#ae81ff">5</span>,:))
+</span></span><span style="display:flex;"><span>legend(<span style="color:#e6db74">&#39;KF&#39;</span>,<span style="color:#e6db74">&#39;EKF&#39;</span>,<span style="color:#e6db74">&#39;UKF&#39;</span>)
+</span></span><span style="display:flex;"><span>xlabel(<span style="color:#e6db74">&#39;Time&#39;</span>)
+</span></span><span style="display:flex;"><span>ylabel(<span style="color:#e6db74">&#39;RMSE&#39;</span>)
+</span></span><span style="display:flex;"><span>title(<span style="color:#e6db74">&#39;RMSE performance of x(1) tracking&#39;</span>)
+</span></span><span style="display:flex;"><span>hold off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>figure
+</span></span><span style="display:flex;"><span>plot(t, ensumbled_lc(<span style="color:#ae81ff">2</span>,:))
+</span></span><span style="display:flex;"><span>hold on, plot(t, ensumbled_lc(<span style="color:#ae81ff">4</span>,:))
+</span></span><span style="display:flex;"><span>plot(t, ensumbled_lc(<span style="color:#ae81ff">6</span>,:))
+</span></span><span style="display:flex;"><span>legend(<span style="color:#e6db74">&#39;KF&#39;</span>,<span style="color:#e6db74">&#39;EKF&#39;</span>,<span style="color:#e6db74">&#39;UKF&#39;</span>)
+</span></span><span style="display:flex;"><span>xlabel(<span style="color:#e6db74">&#39;Time&#39;</span>)
+</span></span><span style="display:flex;"><span>ylabel(<span style="color:#e6db74">&#39;RMSE&#39;</span>)
+</span></span><span style="display:flex;"><span>title(<span style="color:#e6db74">&#39;RMSE performance of x(2) tracking&#39;</span>)
+</span></span><span style="display:flex;"><span>hold off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>figure
+</span></span><span style="display:flex;"><span>hold on
+</span></span><span style="display:flex;"><span>plot(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">100</span>, processing_t(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">100</span>), <span style="color:#e6db74">&#39;ro&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">100</span>, processing_t(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">100</span>) , <span style="color:#e6db74">&#39;b^&#39;</span>);
+</span></span><span style="display:flex;"><span>plot(<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">100</span>, processing_t(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">100</span>)),<span style="color:#e6db74">&#39;cd&#39;</span>;
+</span></span><span style="display:flex;"><span>legend(<span style="color:#e6db74">&#39;KF&#39;</span>,<span style="color:#e6db74">&#39;EKF&#39;</span>,<span style="color:#e6db74">&#39;UKF&#39;</span>)
+</span></span><span style="display:flex;"><span>title(<span style="color:#e6db74">&#39;processing time&#39;</span>)
+</span></span></code></pre></div>
+        </div>
+
+        
+        
+
+
+
+        
+        
+
+
+        <footer class="post-footer">
+          <div class="post-tags">
+              <a href="https://mozhangguo.github.io/tags/matlab/">MATLAB</a>
+                <a href="https://mozhangguo.github.io/tags/ekf/">EKF</a>
+                <a href="https://mozhangguo.github.io/tags/kf/">KF</a>
+                <a href="https://mozhangguo.github.io/tags/ukf/">UKF</a>
+                <a href="https://mozhangguo.github.io/tags/dsp/">DSP</a>
+                <a href="https://mozhangguo.github.io/tags/lotka-volterrra-system/">Lotka Volterrra System</a>
+                
+            </div>
+
+
+          
+          <nav class="post-nav">
+            
+              <a class="prev" href="/post/notes/leetcode169/">
+                
+                <i class="iconfont">
+                  <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+                </i>
+                <span class="prev-text nav-default">LeetCode 169. Majority Element</span>
+                <span class="prev-text nav-mobile">Prev</span>
+              </a>
+            
+          </nav>
+        </footer>
+      </article>
+
+      
+      
+
+
+      
+      
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+    
+
+  
+
+  
+
+
+    </div>
+
+    
+    <nav class="toc" id="toc">
+    <div class="toc-title">Table of Contents</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#non-linear-system">Non-linear System</a></li>
+    <li><a href="#linearized-kalman-filter">Linearized Kalman Filter</a></li>
+    <li><a href="#extended-kalman-filter">Extended Kalman Filter</a></li>
+    <li><a href="#unscented-kalman-filter">Unscented Kalman Filter</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#simulation-setting">Simulation Setting</a></li>
+    <li><a href="#tracking-simulation">Tracking Simulation</a></li>
+    <li><a href="#performance-benchmarking">Performance Benchmarking</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#code-for-system-tracking-evaluation">Code for System Tracking Evaluation</a></li>
+    <li><a href="#code-for-performance-evaluation">Code for Performance Evaluation</a></li>
+  </ul>
+</nav>
+    </div>
+  </nav>
+
+
+  </div>
+
+      </main>
+
+      <footer id="footer" class="footer">
+        <div class="icon-links">
+  
+  
+    <a href="mailto:michael.guo1225@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://stackoverflow.com/users/17483068/michael-guo" rel="me noopener" class="iconfont"
+      title="stack-overflow"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M809.714286 932.571429l-638.857143 0 0-274.285714-91.428571 0 0 365.714286 821.714286 0 0-365.714286-91.428571 0 0 274.285714zm-538.285714-299.428571l18.857143-89.714286 447.428571 94.285714-18.857143 89.142857zm58.857143-213.714286l38.285714-83.428571 414.285714 193.714286-38.285714 82.857143zm114.857143-203.428571l58.285714-70.285714 350.857143 293.142857-58.285714 70.285714zm226.857143-216l272.571429 366.285714-73.142857 54.857143-272.571429-366.285714zm-410.285714 840.571429l0-90.857143 457.142857 0 0 90.857143-457.142857 0z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://twitter.com/MozhangG" rel="me noopener" class="iconfont"
+      title="twitter"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1264 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M1229.8616 18.043658c0 0-117.852626 63.135335-164.151872 67.344358-105.225559-164.151872-505.082682-92.598492-437.738325 223.078185C278.622548 312.675223 89.216542 47.506814 89.216542 47.506814s-117.852626 189.406006 75.762402 345.139833C127.097743 396.85567 55.544363 371.601535 55.544363 371.601535S26.081207 535.753407 253.368414 615.724832c-21.045112 29.463156-113.643603 8.418045-113.643603 8.418045s25.254134 143.10676 231.496229 180.987961c-143.10676 130.479693-387.230056 92.598492-370.393967 105.225559 206.242095 189.406006 1119.599946 231.496229 1128.01799-643.98042C1179.353331 249.539887 1263.533778 123.269217 1263.533778 123.269217s-130.479693 37.881201-138.897738 33.672179C1225.652577 98.015083 1229.8616 18.043658 1229.8616 18.043658"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.facebook.com/m45guo/" rel="me noopener" class="iconfont"
+      title="facebook"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="33" height="33">
+  <path d="M965.7344 2.7648c14.848 0 28.2624 5.5296 40.2432 16.6912C1017.9584 30.5152 1024 43.52 1024 58.2656l0 910.2336c0 14.848-6.0416 27.7504-18.0224 38.8096C993.8944 1018.4704 980.48 1024 965.7344 1024L704.9216 1024 704.9216 629.9648l133.2224 0 19.456-155.4432-152.576 0L705.024 373.0432c0-50.688 25.9072-76.0832 77.7216-76.0832l80.4864 0L863.232 163.5328c-27.7504-5.4272-67.4816-8.192-119.296-8.192-59.1872 0-106.8032 18.0224-142.9504 54.0672C564.736 245.5552 546.7136 296.0384 546.7136 360.7552l0 113.7664L413.4912 474.5216l0 155.4432 133.2224 0L546.7136 1024 55.5008 1024c-14.848 0-27.7504-5.5296-38.8096-16.6912C5.5296 996.2496 0 983.3472 0 968.4992L0 58.2656C0 43.52 5.5296 30.5152 16.6912 19.456c11.0592-11.0592 24.064-16.6912 38.8096-16.6912L965.7344 2.7648z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.linkedin.com/in/mozhang-guo-265514128/" rel="me noopener" class="iconfont"
+      title="linkedin"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="33" height="33">
+  <path d="M872.405333 872.618667h-151.637333v-237.610667c0-56.661333-1.152-129.578667-79.018667-129.578667-79.061333 0-91.136 61.653333-91.136 125.397334v241.792H398.976V384h145.664v66.602667h1.962667c20.352-38.4 69.845333-78.933333 143.786666-78.933334 153.642667 0 182.058667 101.12 182.058667 232.746667v268.202667zM227.712 317.141333a87.978667 87.978667 0 0 1-88.021333-88.106666 88.064 88.064 0 1 1 88.021333 88.106666z m76.032 555.477334H151.68V384h152.064v488.618667zM948.266667 0H75.562667C33.792 0 0 33.024 0 73.770667v876.458666C0 991.018667 33.792 1024 75.562667 1024h872.576C989.866667 1024 1024 991.018667 1024 950.229333V73.770667C1024 33.024 989.866667 0 948.138667 0h0.128z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.hackerrank.com/profile/haburu" rel="me noopener" class="iconfont"
+      title="hackerrank"  target="_blank"
+      >
+      <svg fill="#000000" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" width="33" height="33"><title>HackerRank icon</title><path d="M12 0c1.285 0 9.75 4.886 10.392 6 .645 1.115.645 10.885 0 12S13.287 24 12 24s-9.75-4.885-10.395-6c-.641-1.115-.641-10.885 0-12C2.25 4.886 10.715 0 12 0zm2.295 6.799c-.141 0-.258.115-.258.258v3.875H9.963V6.908h.701c.141 0 .254-.115.254-.258 0-.094-.049-.176-.123-.221L9.223 4.92c-.049-.063-.141-.109-.226-.109-.084 0-.16.045-.207.107L7.11 6.43c-.072.045-.12.126-.12.218 0 .143.113.258.255.258h.704l.008 10.035c0 .145.111.258.254.258h1.492c.142 0 .259-.115.259-.256v-4.004h4.073v4.152h-.699c-.143 0-.256.115-.256.258 0 .092.048.174.119.219l1.579 1.51c.044.061.141.109.225.109.085 0 .159-.045.208-.109l1.679-1.51c.072-.045.12-.127.12-.219 0-.143-.115-.258-.255-.258h-.704l-.007-10.034c0-.145-.114-.26-.255-.26h-1.494v.002z"/></svg>
+    </a>
+  
+    <a href="https://github.com/mozhangguo" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.deviantart.com/redmainecoon" rel="me noopener" class="iconfont"
+      title="deviantart"  target="_blank"
+      >
+      <svg fill="#000000" width="33" height="33" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><polygon points="408 103.28 408 16 407.97 16 318.69 16 309.79 24.78 267.64 103.26 254.39 112 104 112 104 231.85 186.68 231.85 194.04 240.56 104 408.72 104 496 104.02 496 193.3 496 202.21 487.21 244.35 408.73 257.61 400 408 400 408 280.13 325.32 280.13 317.96 271.38 408 103.28"/></svg>
+    </a>
+
+
+<a href="https://mozhangguo.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+  
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    2024
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Mozhang Guo
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+      </footer>
+
+      <div class="button__back-to-top">
+        <a href="#back-to-top">
+          <i class="iconfont">
+            
+            <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+          </i>
+        </a>
+      </div>
+    </div>
+    
+<script type="text/javascript" src="/lib/jquery/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.f3872a5b41c8fef72f857e42fec42aa00d8255a0da4dc6cd4f1493f58ac6caf8.js" integrity="sha256-84cqW0HI/vcvhX5C/sQqoA2CVaDaTcbNTxST9YrGyvg=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      loader: {load: ['[tex]/ams', '[tex]/mathtools', '[tex]/textmacros', '[tex]/textcomp', '[tex]/physics']},
+      tex: {
+              packages: { '[+]': ['base'], '[+]': ['ams'], '[+]': ['mathtools'], '[+]': ['textmacros'], '[+]': ['physics']},
+              inlineMath: [['$', '$'], ['\\(', '\\)']],
+              processRefs: true,
+              useLabelIds: true,         
+            },
+      textmacros: {packages: {'[+]': ['textcomp']}},
+      showProcessingMessages: false,
+      messageStyle: 'none',
+      extensions: ["tex2jax.js"],
+      jax: ["input/TeX", "output/HTML-CSS"],
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

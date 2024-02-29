@@ -6,8 +6,8 @@
     <description>Recent content on Mozhang Guo Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>me@example.com (Mozhang Guo)</managingEditor>
-    <webMaster>me@example.com (Mozhang Guo)</webMaster>
+    <managingEditor>michael.guo1225@gmail.com (Mozhang Guo)</managingEditor>
+    <webMaster>michael.guo1225@gmail.com (Mozhang Guo)</webMaster>
     <lastBuildDate>Sun, 18 Feb 2024 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://mozhangguo.github.io/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +17,7 @@
       <title>About me</title>
       <link>https://mozhangguo.github.io/about/</link>
       <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate>
-      <author>me@example.com (Mozhang Guo)</author>
+      <author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/about/</guid>
       
         <description>👋 Hi, I&amp;rsquo;m Mozhang (Michael) Guo, a recent Master&amp;rsquo;s graduate in Communication Systems and AI from Western University, with an undergraduate degree in Electrical Engineering from the University of Waterloo. My academic journey includes publishing two IEEE conference papers and gaining hands-on software development experience through multiple internships. Passionate about technology, I&amp;rsquo;m currently seeking software development roles where I can apply my knowledge to contribute to innovative projects.</description>
@@ -28,7 +28,7 @@
       <title>LeetCode 1188. Design Bounded Blocking Queue</title>
       <link>https://mozhangguo.github.io/post/notes/leetcodelinkedlistproblemsoln/</link>
       <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate>
-      <author>me@example.com (Mozhang Guo)</author>
+      <author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/post/notes/leetcodelinkedlistproblemsoln/</guid>
       
         <description>Problem Description The problem asked us to imlement a thread safer bounded blocking queues with following methods.
@@ -42,7 +42,7 @@ Approach Complexity Code Our solution using condition variable and mutex can be 
       <title>LeetCode 169. Majority Element</title>
       <link>https://mozhangguo.github.io/post/notes/leetcode169/</link>
       <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate>
-      <author>me@example.com (Mozhang Guo)</author>
+      <author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/post/notes/leetcode169/</guid>
       
         <description>This problem asked us to return the majority elements that appears more than [n/2] times. The problem itself is not that hard to complete with hash table or sorting algorithms. The intuition behind this problem can be understood as to find the frequency of each element in the given array and return the most frequent element. The table below summarize the space and time complexity of these algorirthms.
@@ -51,15 +51,13 @@ Algorithm Time Complexity Space Complexity Hash Table O(N) O(N) Sorting O(N) O(N
     </item>
     
     <item>
-      <title>Channel Modelling</title>
-      <link>https://mozhangguo.github.io/post/blogs/channelmodel/</link>
+      <title>Lotka Volterra System Tracking with Kalman Filter</title>
+      <link>https://mozhangguo.github.io/post/blogs/lotka_volterra_tracking/</link>
       <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
-      <author>me@example.com (Mozhang Guo)</author>
-      <guid>https://mozhangguo.github.io/post/blogs/channelmodel/</guid>
+      <author>michael.guo1225@gmail.com (Mozhang Guo)</author>
+      <guid>https://mozhangguo.github.io/post/blogs/lotka_volterra_tracking/</guid>
       
-        <description>asdasdasd as dasdasdasd
-afsdd asd as da sdasd asd as
-d sadas</description>
+        <description>Abstract This article investigates the Kalman filter and its sub-variant algorithms&amp;rsquo; performance on a Lotka-Volterra System tracking. This article reviews the system model built by the Lotka-Volterra equation. The concept of Kalman Filter, Extended Kalman Filter and Unscented Kalman Filter is demonstrated, and their modified algorithms are presented. We compare the performance of these algorithms using MSE, RMSE, Tracking Results and Processing Time. We showed that under the same performance level in our system, the EKF offers a more stable and fast-tracking solution.</description>
       
     </item>
     

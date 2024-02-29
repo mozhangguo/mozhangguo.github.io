@@ -6,16 +6,16 @@
     <description>Recent content in Blog on Mozhang Guo Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>me@example.com (Mozhang Guo)</managingEditor>
-    <webMaster>me@example.com (Mozhang Guo)</webMaster>
+    <managingEditor>michael.guo1225@gmail.com (Mozhang Guo)</managingEditor>
+    <webMaster>michael.guo1225@gmail.com (Mozhang Guo)</webMaster>
     <lastBuildDate>Sat, 17 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://mozhangguo.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Channel Modelling</title>
-      <link>https://mozhangguo.github.io/post/blogs/channelmodel/</link>
-      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
-      <guid>https://mozhangguo.github.io/post/blogs/channelmodel/</guid>
-      <description>asdasdasd as dasdasdasd&#xA;afsdd asd as da sdasd asd as&#xA;d sadas</description>
+      <title>Lotka Volterra System Tracking with Kalman Filter</title>
+      <link>https://mozhangguo.github.io/post/blogs/lotka_volterra_tracking/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
+      <guid>https://mozhangguo.github.io/post/blogs/lotka_volterra_tracking/</guid>
+      <description>Abstract This article investigates the Kalman filter and its sub-variant algorithms&amp;rsquo; performance on a Lotka-Volterra System tracking. This article reviews the system model built by the Lotka-Volterra equation. The concept of Kalman Filter, Extended Kalman Filter and Unscented Kalman Filter is demonstrated, and their modified algorithms are presented. We compare the performance of these algorithms using MSE, RMSE, Tracking Results and Processing Time. We showed that under the same performance level in our system, the EKF offers a more stable and fast-tracking solution.</description>
     </item>
   </channel>
 </rss>

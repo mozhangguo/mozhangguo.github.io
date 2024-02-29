@@ -6,56 +6,70 @@
     <description>Recent content in Tags on Mozhang Guo Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>me@example.com (Mozhang Guo)</managingEditor>
-    <webMaster>me@example.com (Mozhang Guo)</webMaster>
+    <managingEditor>michael.guo1225@gmail.com (Mozhang Guo)</managingEditor>
+    <webMaster>michael.guo1225@gmail.com (Mozhang Guo)</webMaster>
     <lastBuildDate>Sun, 18 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://mozhangguo.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Boyer-Moore Voting Algorithm</title>
       <link>https://mozhangguo.github.io/tags/boyer-moore-voting-algorithm/</link>
-      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/tags/boyer-moore-voting-algorithm/</guid>
       <description></description>
     </item>
     <item>
       <title>C&#43;&#43;</title>
       <link>https://mozhangguo.github.io/tags/c&#43;&#43;/</link>
-      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/tags/c&#43;&#43;/</guid>
       <description></description>
     </item>
     <item>
       <title>Concurrency</title>
       <link>https://mozhangguo.github.io/tags/concurrency/</link>
-      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/tags/concurrency/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DSP</title>
+      <link>https://mozhangguo.github.io/tags/dsp/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
+      <guid>https://mozhangguo.github.io/tags/dsp/</guid>
       <description></description>
     </item>
     <item>
       <title>EKF</title>
       <link>https://mozhangguo.github.io/tags/ekf/</link>
-      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/tags/ekf/</guid>
       <description></description>
     </item>
     <item>
       <title>KF</title>
       <link>https://mozhangguo.github.io/tags/kf/</link>
-      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/tags/kf/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lotka Volterrra System</title>
+      <link>https://mozhangguo.github.io/tags/lotka-volterrra-system/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
+      <guid>https://mozhangguo.github.io/tags/lotka-volterrra-system/</guid>
       <description></description>
     </item>
     <item>
       <title>MATLAB</title>
       <link>https://mozhangguo.github.io/tags/matlab/</link>
-      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/tags/matlab/</guid>
       <description></description>
     </item>
     <item>
       <title>UKF</title>
       <link>https://mozhangguo.github.io/tags/ukf/</link>
-      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/tags/ukf/</guid>
       <description></description>
     </item>

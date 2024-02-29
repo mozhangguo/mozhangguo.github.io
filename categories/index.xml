@@ -6,21 +6,21 @@
     <description>Recent content in Categories on Mozhang Guo Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>me@example.com (Mozhang Guo)</managingEditor>
-    <webMaster>me@example.com (Mozhang Guo)</webMaster>
+    <managingEditor>michael.guo1225@gmail.com (Mozhang Guo)</managingEditor>
+    <webMaster>michael.guo1225@gmail.com (Mozhang Guo)</webMaster>
     <lastBuildDate>Sun, 18 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://mozhangguo.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Notes</title>
       <link>https://mozhangguo.github.io/categories/notes/</link>
-      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/categories/notes/</guid>
       <description></description>
     </item>
     <item>
       <title>Blog</title>
       <link>https://mozhangguo.github.io/categories/blog/</link>
-      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/categories/blog/</guid>
       <description></description>
     </item>

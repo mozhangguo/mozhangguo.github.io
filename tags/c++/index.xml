@@ -6,21 +6,21 @@
     <description>Recent content in C&#43;&#43; on Mozhang Guo Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>me@example.com (Mozhang Guo)</managingEditor>
-    <webMaster>me@example.com (Mozhang Guo)</webMaster>
+    <managingEditor>michael.guo1225@gmail.com (Mozhang Guo)</managingEditor>
+    <webMaster>michael.guo1225@gmail.com (Mozhang Guo)</webMaster>
     <lastBuildDate>Sun, 18 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://mozhangguo.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>LeetCode 1188. Design Bounded Blocking Queue</title>
       <link>https://mozhangguo.github.io/post/notes/leetcodelinkedlistproblemsoln/</link>
-      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/post/notes/leetcodelinkedlistproblemsoln/</guid>
       <description>Problem Description The problem asked us to imlement a thread safer bounded blocking queues with following methods.&#xA;Constructor enqueue dequeue size The implementation will be tested under multi-threaded condition. Each thread will either be a producer (calling enqueue) or a consumer(calling dequeue).&#xA;Intuition C++ offers us multiple ways of implementing the thread safe mechanism. The Conditional variable and the mutex locks can be a&#xA;Approach Complexity Code Our solution using condition variable and mutex can be seen below.</description>
     </item>
     <item>
       <title>LeetCode 169. Majority Element</title>
       <link>https://mozhangguo.github.io/post/notes/leetcode169/</link>
-      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>me@example.com (Mozhang Guo)</author>
+      <pubDate>Sun, 18 Feb 2024 00:00:00 +0000</pubDate><author>michael.guo1225@gmail.com (Mozhang Guo)</author>
       <guid>https://mozhangguo.github.io/post/notes/leetcode169/</guid>
       <description>This problem asked us to return the majority elements that appears more than [n/2] times. The problem itself is not that hard to complete with hash table or sorting algorithms. The intuition behind this problem can be understood as to find the frequency of each element in the given array and return the most frequent element. The table below summarize the space and time complexity of these algorirthms.&#xA;Algorithm Time Complexity Space Complexity Hash Table O(N) O(N) Sorting O(N) O(N) However, the follow-up question asked us to solve the problem in linear time O(n) and constant space O(1).</description>
     </item>
