@@ -11,7 +11,7 @@ profile:
   more_info: >
     <p>555 your office number</p>
     <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>Vaughan, Ontario, Canada</p>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -26,6 +26,15 @@ latest_posts:
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
+Hi, I’m Mozhang Guo.
+
+I’m a software developer with an engineering background in electrical and computer engineering, wireless communications, embedded systems, and AI. I currently work at General Motors Canada, where I focus on automotive software, especially exterior lighting systems, embedded integration, diagnostics, and software testing frameworks.
+
+Before entering industry, I studied Electrical and Computer Engineering at the University of Waterloo and completed my Master’s degree at Western University, where my research focused on communication systems, optimization, and AI-related methods. That research background still shapes how I think today: I like breaking complex systems into understandable parts, finding the trade-offs, and turning abstract ideas into something practical.
+
+My interests sit somewhere between software engineering, automotive systems, intelligent vehicles, embedded platforms, and applied AI. I’m especially drawn to problems where engineering meets real-world constraints — where the solution has to be not only clever, but reliable, scalable, and useful.
+
+This personal website is where I share what I’m learning, building, and thinking about. I write about software, embedded systems, automotive engineering, AI, research ideas, and the messy but interesting process of becoming a better engineer.
 
 Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](https://www.reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
 
